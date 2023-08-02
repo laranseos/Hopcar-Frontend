@@ -1,0 +1,86 @@
+.search__bar {
+   padding      : 0.5rem;
+   border-radius: 50px;
+   background-color: #fff;
+   box-shadow   : rgba(25, 22, 47, 0.3) 0px 12px 25px 0px;
+   width        : max-content;
+   margin-left: auto;
+   margin-right: auto;
+
+}
+
+.forms {
+   margin-bottom: -18px;
+}
+
+.form__group span {
+   margin-top: 10px;
+   font-size: 1.8rem;
+   color    : #ee6e6e;
+}
+
+
+
+.form__group h6 {
+   margin-bottom: 0;
+}
+
+.form__group-fast {
+   border-right: 2px solid #ddd;
+}
+
+.search__icon i {
+   font-size    : 1.6rem;
+   padding      : 0.5rem;
+   background   : var(--secondary-color);
+   color        : #fff;
+   border-radius: 10px 5px 10px 5px;
+   cursor       : pointer;
+}
+
+/* =============== RESPONSIVE ================ */
+@media only screen and (max-width:992px) {
+   .search__bar {
+      width: 100%;
+      border-radius: 2rem;
+   }
+
+   .search__bar form {
+      flex-wrap: wrap;
+   }
+
+   .search__bar form .form__group {
+      width: 48%;
+   }
+}
+
+@media only screen and (max-width:576px) {
+   .search__bar form .form__group {
+      width: 100%;
+   }
+
+   .form__group input {
+      font-size: 0.7rem;
+   }
+
+   .form__group span i {
+      font-size: 1.1rem;
+   }
+
+   .form__group h6 {
+      font-size: 1rem;
+   }
+}
+
+.pac-container {
+   background-color: #151515;
+   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  }
+  .pac-item,
+  .pac-item-query {
+   color: #f7f7f7;
+  }
+  .pac-item:hover {
+   background: #6666;
+  }
