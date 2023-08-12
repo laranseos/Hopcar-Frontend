@@ -20,9 +20,14 @@ const Searchcard = () => {
     const fetchAvatars = async () => {
       for (const ride of ridesData) {
         const res = await fetch(`${BASE_URL}/rides/results/getavatar?email=${ride.driveremail}`);
-        const blob = await res.blob();
-        const url = URL.createObjectURL(blob);
-        setAvatarUrl((prev)=>[...prev,url]);
+        if(!res.ok){
+          setAvatarUrl((prev)=>[...prev,""]);
+        }else{
+          const blob = await res.blob();
+          const url = URL.createObjectURL(blob);
+          setAvatarUrl((prev)=>[...prev,url]);
+        }
+        
       }
     };
     fetchAvatars();
@@ -46,6 +51,7 @@ const Searchcard = () => {
               </Row>
       </Container>
       {ridesData?ridesData.map( (ride,index)=>{
+        avatarNumber++
         return(
         <div key={index} className='text-center'>
           <button onClick={()=>{navigate('/rides/details',{state:ride})}} className='mt-4 hover:translate-y-1 hover:scale-105 w-[300px] lg:w-[400px] xl:w-[500px]'>
@@ -68,7 +74,7 @@ const Searchcard = () => {
                 </div>
               </div>
               <div className='flex ml-4 items-center'>
-                  <img src={avatarUrl[avatarNumber++]}  className="w-12 h-12 rounded-full" alt="Avatar"/>
+                  <img src={avatarUrl[avatarNumber-1] || Avatars}  className="w-12 h-12 rounded-full" alt="Avatar"/>
                   <div className='text-lg font-medium ml-2'>{name[nameNumber++]}</div>
               </div>        
             </div>

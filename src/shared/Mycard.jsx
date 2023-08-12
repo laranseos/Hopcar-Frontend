@@ -22,7 +22,7 @@ import { useNavigate } from 'react-router-dom'
                   <div className="relative pl-4 sm:pl-32 py-2 group">
                       <div className="flex flex-col sm:flex-row items-start group-last:before:hidden before:absolute before:left-2 sm:before:left-0 before:h-full before:px-px before:bg-slate-600 sm:before:ml-[6.5rem] before:self-start before:-translate-x-1/2 before:translate-y-3 after:absolute after:left-2 sm:after:left-0 after:w-3 after:h-3 after:bg-green-300 after:border-2 after:box-content after:border-slate-600 after:rounded-full sm:after:ml-[6.5rem] after:-translate-x-1/2 after:translate-y-1.5">
                           <time className="sm:absolute left-0 translate-y-0.5 inline-flex items-center justify-center text-xs font-semibold uppercase w-20 h-6 sm:mb-0 text-emerald-600 bg-emerald-100 rounded-full">{ride.time}</time>
-                          <div className="text-xl font-semibold">{ride.from}</div>
+                          <div className="text-xl  font-semibold">{ride.from}</div>
                       </div>
                   </div>
                   <time className="sm:absolute -translate-y-4 left-4 items-center bottom-2 justify-center text-xs font-bold w-20 h-6 mb-3 sm:mb-1 text-slate-500 rounded-full">{ride.hours}</time>

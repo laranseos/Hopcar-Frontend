@@ -1,12 +1,13 @@
-import React ,{useState,useEffect} from 'react'
-import { useLocation } from 'react-router-dom'
+import React ,{useState,useEffect, useContext} from 'react'
+import { useLocation ,useNavigate} from 'react-router-dom'
 import Avatars from '../assets/images/avatars.png'
 import '../pages/shake.css'
 import { BASE_URL } from '../utils/config'
+import { AuthContext } from '../context/AuthContext'
 
  const Ridedetails = () => {
-  
-  const location = useLocation();
+  const navigate=useNavigate()
+  const location = useLocation()
   const [driverName,setDriverName]=useState('')
   const [driverAvatar,setDriverAvatar]=useState('')
   const [driverInfo,setDriverInfo]=useState({})
@@ -21,9 +22,14 @@ import { BASE_URL } from '../utils/config'
   useEffect(()=>{
     const fetchAvatars = async () => {
         const res = await fetch(`${BASE_URL}/rides/results/getavatar?email=${location.state.driveremail}`);
-        const blob = await res.blob();
-        const url = URL.createObjectURL(blob);
-        setDriverAvatar(url)
+        if(!res.ok){
+          setDriverAvatar("")
+        }else{
+          const blob = await res.blob();
+          const url = URL.createObjectURL(blob);
+          setDriverAvatar(url)
+        }
+        
     };
     fetchAvatars();
   },[])
@@ -44,9 +50,13 @@ import { BASE_URL } from '../utils/config'
       const fetchAvatars = async () => {
         for (const email of location.state.bookedEmail) {
           const res = await fetch(`${BASE_URL}/rides/results/getavatar?email=${email}`);
-          const blob = await res.blob();
-          const url = URL.createObjectURL(blob);
-          setAvatarUrl((prev)=>[...prev,url]);
+          if(!res.ok){
+            setAvatarUrl((prev)=>[...prev," "]);
+          }else{
+            const blob = await res.blob();
+            const url = URL.createObjectURL(blob);
+            setAvatarUrl((prev)=>[...prev,url]);
+          }
         }
       };
       fetchAvatars();
@@ -67,7 +77,17 @@ import { BASE_URL } from '../utils/config'
   const dateString = location.state.date;
   const date = new Date(dateString);
   const formattedDate = date.toLocaleDateString("en-US", { weekday: 'short', day: 'numeric', month: 'long' });
-
+  const {user, accessToken}=useContext(AuthContext)
+  const handleClick=async()=>{
+    const res=await fetch(`${BASE_URL}/rides/results/booking/create?id=${user}&token=${accessToken}&rideId=${location.state._id}`)
+    const result=await res.json()
+    if(!res.ok){
+      alert(result.message)
+    }else{
+      navigate('/rides/booked')
+    }
+    
+  }
   return (
     <div className='text-center mr-auto ml-auto mt-12 w-[400px] lg:w-[500px] xl:w-[600px]'>
       <div className='font-bold text-3xl mb-2 ml-4'>{formattedDate}</div>
@@ -100,7 +120,7 @@ import { BASE_URL } from '../utils/config'
         <div className='text-center'>
             <div className='flex pl-4 items-center'>
               <div className='text-xl font-semibold'>{driverName}</div>
-              <img src={driverAvatar}  className="mt-3 ml-auto mr-4 mb-3 w-12 h-12 rounded-full" alt="Avatar"/>
+              <img src={driverAvatar||Avatars}  className="mt-3 ml-auto mr-4 mb-3 w-12 h-12 rounded-full" alt="Avatar"/>
             </div>
             <div className='w-[380px] lg:w-[480px] xl:w-[580px] mr-auto ml-auto'>
               <hr></hr>
@@ -113,27 +133,29 @@ import { BASE_URL } from '../utils/config'
               <hr></hr>
               <div className='text-slate-500 text-left text-lg font-semibold mt-3 mb-3'>{location.state.info}</div>
               <hr></hr>
-              <div className='text-left text-lg font-semibold mt-3'>{driverInfo.vehicle_brand+","+driverInfo.vehicle_model}</div>
+              <div className='text-left text-lg font-semibold mt-3'>{driverInfo.vehicle_brand+driverInfo.vehicle_model}</div>
               <div className=' text-slate-500 text-left text-md font-semibold mb-3'>{driverInfo.vehicle_color}</div>
             </div>
             <hr className='border-8 text-slate-400'></hr>
         </div>
-        {avatarUrl[0] ? avatarUrl.map((avatar, index) => (
-            <div key={index} className=' ml-auto mr-auto w-[380px] lg:w-[480px] xl:w-[580px]'>
+        {location.state.bookedEmail[0] ? avatarUrl.map((avatar, index) => {
+            avatarNumber++
+            return(
+              <div key={index} className=' ml-auto mr-auto w-[380px] lg:w-[480px] xl:w-[580px]'>
               <div className='flex pl-4 text-center items-center'>
                   <div className='text-xl font-semibold'>{name[nameNumber++]}</div>
-                  <img src={avatarUrl[avatarNumber++]}  className="mt-3 ml-auto mr-4 mb-3 w-12 h-12 rounded-full" alt="Avatar"/>
+                  <img src={avatarUrl[avatarNumber-1]||Avatars}  className="mt-3 ml-auto mr-4 mb-3 w-12 h-12 rounded-full" alt="Avatar"/>
               </div>
               <hr></hr>
-            </div>)) : 
+            </div>)}): 
             <div>
               <div className='flex pl-4 text-center items-center'>
                 <div className='text-slate-500 text-left text-lg font-semibold mt-3 mb-3'>No other passengers</div>
               </div>
-            </div>
+            </div>  
         }
         <hr className='border-8 text-slate-400'></hr>
-        <button className='mt-10 bg-green-400 text-white font-bold rounded-full h-12 w-44 hover:bg-green-500'>Make Reservation</button>
+        <button onClick={handleClick} className='mt-10 bg-green-400 text-white font-bold rounded-full h-12 w-44 hover:bg-green-500'>Make Reservation</button>
       </div>
     </div>
   )

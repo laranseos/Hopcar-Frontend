@@ -69,6 +69,7 @@ import { BASE_URL } from '../utils/config'
               </div>
           </div>
           <hr className='border-8 text-slate-400'></hr>
+          {avatarUrl[0]?<div className='text-black text-3xl mt-3'>passengers who booked your ride</div>:<></>}
           {avatarUrl[0] ? avatarUrl.map((item, index) => (
             <div key={index} className=' ml-auto mr-auto w-[380px] lg:w-[480px] xl:w-[580px]'>
               <div className='flex pl-4 text-center items-center'>

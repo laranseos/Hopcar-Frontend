@@ -26,7 +26,7 @@ const Phonenumber = () => {
 
   const handleSubmitClick = async(e) => {
     e.preventDefault();
-    console.log(credentials.phonenumber);
+    console.log(credentials);
     if(!isValidPhoneNumber(credentials.phonenumber)){
       setError('Double check the phone number format and try again.');
     } 

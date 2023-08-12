@@ -36,6 +36,8 @@ import Ride from '../pages/ride/Ride'
 import PublishAlert from '../pages/ride/PublishAlert'
 import Rideplan from '../shared/Rideplan'
 import RideDelete from '../pages/ride/RideDelete'
+import ReservationDelete from '../pages/ride/ReservationDelete'
+
 import EditDates from '../shared/EditRide/Date'
 import EditTime from '../shared/EditRide/Time'
 import EditPassengers from '../shared/EditRide/Passengers'
@@ -45,13 +47,13 @@ import EditDropoff from '../shared/EditRide/Dropoff'
 import EditInfo from '../shared/EditRide/Info'
 import EditRide from '../shared/EditRide/Ride'
 import EditPublishAlert from '../shared/EditRide/PublishAlert'
-
+import ReservationAlert from '../shared/ReservationAlert'
 import Ridedetails from '../shared/Ridedetails'
+import BookPlan from '../shared/BookPlan'
 import { AuthContext } from '../context/AuthContext'
 import Alert from '../shared/Alert'
 import Myrides from '../pages/Myrides'
 const Routers = () => {
-   const isEmailVerified = false;
    const {user}=useContext(AuthContext)
    return (
       <Routes>
@@ -96,7 +98,7 @@ const Routers = () => {
          <Route path='/ride/ride' element={<Ride />} />
          <Route path='/publishalert' element={<PublishAlert alert="Your ride is published! Passengers can now book&#10;and travel with you!"/>} />
          <Route path='/rideplan' element={<Rideplan />} />
-
+         <Route path='/bookplan' element={<BookPlan />} />
          <Route path='/ride/edit/date' element={<EditDates/>} />
          <Route path='/ride/edit/time' element={<EditTime/>} />
          <Route path='/ride/edit/passengers' element={<EditPassengers/>} />
@@ -106,17 +108,20 @@ const Routers = () => {
          <Route path='/ride/edit/info' element={<EditInfo />} />
          <Route path='/ride/edit/ride' element={<EditRide />} />
          <Route path='/ride/delete' element={<RideDelete />} />
+         <Route path='/bookplan/rides/deleteReservation' element={<ReservationDelete />} />
+
          <Route path='/edit/publishalert' element={<EditPublishAlert alert="Your ride is published! Passengers can now book&#10;and travel with you!"/>} />
          <Route path='/rideplan' element={<Rideplan />} />
          
          <Route path='/alert' element={<Alert />} />
 
          <Route path='/rides/details' element={<Ridedetails />} />
+         <Route path='/rides/booked' element={<ReservationAlert />} />
          </>
          :
          <>
          <Route path='/' element={<Navigate to='/home'/>} />
-         <Route path='/home' element={<Navigate to='/login/emailpassword'/>} />
+         <Route path='/home' element={<Home />} />
          <Route path='/myrides' element={<Myrides/>} />
          <Route path='/ride' element={<Navigate to='/login/emailpassword'/>} />
          <Route path='/searchresults' element={<Navigate to='/login/emailpassword'/>} />
@@ -155,7 +160,7 @@ const Routers = () => {
          <Route path='/ride/info' element={<Navigate to='/login/emailpassword'/>}  />
          <Route path='/ride/ride' element={<Navigate to='/login/emailpassword'/>}  />
          <Route path='/rides/details' element={<Navigate to='/login/emailpassword'/>} />
-
+         <Route path='/rides/booked' element={<Navigate to='/login/emailpassword'/>} />
          <Route path='/ride/edit/date' element={<Navigate to='/login/emailpassword'/>} />
          <Route path='/ride/edit/time' element={<Navigate to='/login/emailpassword'/>} />
          <Route path='/ride/edit/passengers' element={<Navigate to='/login/emailpassword'/>} />
@@ -166,8 +171,10 @@ const Routers = () => {
          <Route path='/ride/edit/ride' element={<Navigate to='/login/emailpassword'/>} />
          <Route path='/ride/delete' element={<Navigate to='/login/emailpassword'/>} />
          <Route path='/edit/publishalert' element={<Navigate to='/login/emailpassword'/>} />
+         <Route path='bookplan/rides/deleteReservation' element={<Navigate to='/login/emailpassword'/>} />
 
          <Route path='/rideplan' element={<Navigate to='/login/emailpassword'/>} />
+         <Route path='/bookplan' element={<Navigate to='/login/emailpassword'/>} />
          <Route path='/alert' element={<Navigate to='/login/emailpassword'/>} />
          <Route path='/publishalert' element={<Navigate to='/login/emailpassword'/>} />
 
